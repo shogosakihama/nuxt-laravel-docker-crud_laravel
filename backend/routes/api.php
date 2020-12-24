@@ -17,3 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/', function() {
+    return 'helloworld';
+});
+
+Route::post('/post', 'PostController@store');
