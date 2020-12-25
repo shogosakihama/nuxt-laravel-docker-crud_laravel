@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\PostController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -22,4 +22,6 @@ Route::get('/', function() {
     return 'helloworld';
 });
 
-Route::post('/post', 'PostController@store');
+Route::get('index', [PostController::class, 'index']);
+Route::post('post', [PostController::class, 'store']);
+

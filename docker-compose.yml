@@ -19,6 +19,7 @@ services:
     build: ./infra/mysql
     volumes:
       - db-store:/var/lib/mysql
+    # command: mysqld --skip-grant-tables --skip-networking
 
 volumes:
   db-store:
