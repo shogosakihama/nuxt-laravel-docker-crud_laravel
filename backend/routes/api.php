@@ -24,4 +24,8 @@ Route::get('/', function() {
 
 Route::get('index', [PostController::class, 'index']);
 Route::post('post', [PostController::class, 'store']);
+Route::post('update', [PostController::class, 'update']);
+Route::post('remove', [PostController::class, 'destroy']);
+
+
 
