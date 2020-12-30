@@ -20,6 +20,8 @@ services:
     volumes:
       - db-store:/var/lib/mysql
     # command: mysqld --skip-grant-tables --skip-networking
+    ports:
+      - "3306:3306"
 
 volumes:
   db-store:
