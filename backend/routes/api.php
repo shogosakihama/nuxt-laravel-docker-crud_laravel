@@ -18,16 +18,8 @@ use App\Http\Controllers\Auth\Api\LoginController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::post('register', [RegisterController::class, 'register'])->name('api.register');
-Route::post('login', [LoginController::class, 'login'])->name('api.login');
-Route::get('user', function (Request $request) {
-    return response()->json(['user' => $request->user()]);
-});
-Route::post('logout', 'Auth\Api\LoginController@logout')->name('api.logout');
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+
 
 Route::get('/', function() {
     return 'helloworld';
@@ -39,6 +31,19 @@ Route::post('update', [PostController::class, 'update']);
 Route::post('remove', [PostController::class, 'destroy']);
 
 // Sanctum
+Route::post('register', [RegisterController::class, 'register'])->name('api.register');
+Route::post('login', [LoginController::class, 'login'])->name('api.login');
+// Route::get('user', function (Request $request) {
+//     return response()->json(['user' => $request->user()]);
+// });
+// Route::post('logout', [LoginController::class, 'logout'])->name('api.logout');
 
-
-
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::get('user', function (Request $request) {
+        return response()->json(['user' => $request->user()]);
+    });
+    Route::post('logout', [LoginController::class, 'logout'])->name('api.logout');
+});
