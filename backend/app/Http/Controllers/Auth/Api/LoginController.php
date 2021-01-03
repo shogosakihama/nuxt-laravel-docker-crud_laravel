@@ -49,9 +49,9 @@ class LoginController extends Controller
                 'email' => [__('failed')],
             ]);
         }
-
+        $device_name = "test";
         // tokenの作成
-        $token = $user->createToken($request->device_name)->plainTextToken;
+        $token = $user->createToken($device_name)->plainTextToken;
 
         return response()->json(['token' => $token, 'user' => $user], 200);
     }
@@ -62,7 +62,6 @@ class LoginController extends Controller
         $request->validate([
             $this->username() => 'required|string',
             'password' => 'required|string',
-            'device_name' => 'required'
         ]);
     }
 
