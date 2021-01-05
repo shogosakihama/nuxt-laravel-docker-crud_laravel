@@ -7,10 +7,11 @@ use App\Models\Post;
 
 class PostController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+      $user = $request->user();
       $posts = Post::take(10)->get();
-      // \Log::info('ログ出力テスト');
+      $posts->user = $user;
 
       return response()->json(['posts' => $posts]);
     }
