@@ -30,7 +30,7 @@ Route::get('/', function() {
 });
 
 // Route::post('like', [LikeController::class, 'like'])->middleware('auth');
-Route::get('index', [PostController::class, 'index']);
+// Route::get('index', [PostController::class, 'index']);
 // Route::post('post', [PostController::class, 'store']);
 // Route::post('update', [PostController::class, 'update']);
 // Route::post('remove', [PostController::class, 'destroy']);
@@ -52,7 +52,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     });
     Route::post('logout', [LoginController::class, 'logout'])->name('api.logout');
     Route::post('like', [LikeController::class, 'like']);
-    // Route::get('index', [PostController::class, 'index']);
+    Route::post('unlike', [LikeController::class, 'unlike']);
+    Route::get('index', [PostController::class, 'index']);
     Route::post('post', [PostController::class, 'store']);
     Route::post('update', [PostController::class, 'update']);
     Route::post('remove', [PostController::class, 'destroy']);
