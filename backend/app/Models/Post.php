@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Post extends Model
 {
@@ -17,5 +18,21 @@ class Post extends Model
     public function user()
     {
       return $this->belongsTo(User::class);
+    }
+
+    public function is_liked_by_auth_user()
+    {
+      $id = Auth::id();
+
+      $likers = array();
+      foreach($this->like as $like) {
+        array_push($likers, $like->user_id);
+      }
+
+      if (in_array($id, $likers)) {
+        return true;
+      } else {
+        return false;
+      }
     }
 }

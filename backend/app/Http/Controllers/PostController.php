@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
+    // public function __construct()
+    // {
+    //   $this->middleware('auth:sanctum')->except('index');
+    // }
+
     public function index(Request $request)
     {
       $user = Auth::id();
@@ -33,17 +38,15 @@ class PostController extends Controller
                         "id" => $like->user_id
                     ];
                 }),
-                "user_check" => $post->like->map(function($like){
-                    return [
-                        "id" => $like->user_id
-                    ];
-                }),
+                "user_check" => $post->is_liked_by_auth_user(),
               ];
           })->all(),
     ];
 
       return response()->json(['posts' => $res, 'user' => $user]);
     }
+
+
 
     public function store(Request $request)
     {
@@ -56,6 +59,8 @@ class PostController extends Controller
 
       $post->save();
     }
+
+
 
     public function update(Request $request)
     {
