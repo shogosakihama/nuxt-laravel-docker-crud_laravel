@@ -7,6 +7,7 @@ use App\Http\Controllers\LikeController;
 use Laravel\Sanctum\Sanctum;
 use App\Http\Controllers\Auth\Api\RegisterController;
 use App\Http\Controllers\Auth\Api\LoginController;
+use Illuminate\Support\Facades\Auth;
 
 
 /*
@@ -20,17 +21,12 @@ use App\Http\Controllers\Auth\Api\LoginController;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-
-Route::get('/', function() {
-    return 'helloworld';
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 // Route::post('like', [LikeController::class, 'like'])->middleware('auth');
-Route::get('index', [PostController::class, 'index']);
+// Route::get('index', [PostController::class, 'index']);
 // Route::post('post', [PostController::class, 'store']);
 // Route::post('update', [PostController::class, 'update']);
 // Route::post('remove', [PostController::class, 'destroy']);
@@ -46,6 +42,7 @@ Route::post('login', [LoginController::class, 'login'])->name('api.login');
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
+
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('user', function (Request $request) {
         return response()->json(['user' => $request->user()]);
@@ -57,3 +54,5 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('update', [PostController::class, 'update']);
     Route::post('remove', [PostController::class, 'destroy']);
 });
+Route::get('indexNoauth', [PostController::class, 'indexNoauth']);
+Route::get('index', [PostController::class, 'index']);

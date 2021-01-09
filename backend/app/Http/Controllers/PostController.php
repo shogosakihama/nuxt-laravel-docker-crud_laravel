@@ -9,10 +9,10 @@ use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
-    // public function __construct()
-    // {
-    //   $this->middleware('auth:sanctum')->except('index');
-    // }
+    public function __construct()
+    {
+      $this->middleware('auth:sanctum')->except('indexNoauth');
+    }
 
     public function index(Request $request)
     {
@@ -46,7 +46,37 @@ class PostController extends Controller
       return response()->json(['posts' => $res, 'user' => $user]);
     }
 
+    public function indexNoauth(Request $request)
+    {
+      $user = Auth::id();
+      $posts = Post::take(10)
+      ->with('like')
+      ->get();
 
+      $res = [
+          "posts" => $posts->map(function($post) {
+              return [
+                  "id" => $post->id,
+                  "title" => $post->title,
+                  "text" => $post->text,
+                  "userId" => $post->user_id,
+                  "like" => $post->like->map(function($like){
+                      return [
+                          "id" => $like->id
+                      ];
+                  })->count(),
+                  "like_user" => $post->like->map(function($like){
+                    return [
+                        "id" => $like->user_id
+                    ];
+                }),
+                "user_check" => $post->is_liked_by_auth_user(),
+              ];
+          })->all(),
+    ];
+
+      return response()->json(['posts' => $res, 'user' => $user]);
+    }
 
     public function store(Request $request)
     {
