@@ -9,10 +9,10 @@ use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
-    public function __construct()
-    {
-      $this->middleware('auth:sanctum')->except('indexNoauth');
-    }
+    // public function __construct()
+    // {
+    //   $this->middleware('auth:sanctum')->except('indexNoauth');
+    // }
 
     public function index(Request $request)
     {
