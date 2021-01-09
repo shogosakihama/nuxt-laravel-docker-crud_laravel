@@ -4,15 +4,79 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\Like;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
-    public function index()
+    public function __construct()
     {
-      $posts = Post::take(10)->get();
-      // \Log::info('ログ出力テスト');
+      $this->middleware('auth:sanctum')->except('indexNoauth');
+    }
 
-      return response()->json(['posts' => $posts]);
+    public function index(Request $request)
+    {
+      $user = Auth::id();
+      $posts = Post::take(10)
+      ->with('like')
+      ->get();
+
+      $res = [
+          "posts" => $posts->map(function($post) {
+              return [
+                  "id" => $post->id,
+                  "title" => $post->title,
+                  "text" => $post->text,
+                  "userId" => $post->user_id,
+                  "like" => $post->like->map(function($like){
+                      return [
+                          "id" => $like->id
+                      ];
+                  })->count(),
+                  "like_user" => $post->like->map(function($like){
+                    return [
+                        "id" => $like->user_id
+                    ];
+                }),
+                "user_check" => $post->is_liked_by_auth_user(),
+                "auther_check" => $post->is_auth_user(),
+              ];
+          })->all(),
+    ];
+
+      return response()->json(['posts' => $res, 'user' => $user]);
+    }
+
+    public function indexNoauth(Request $request)
+    {
+      $user = Auth::id();
+      $posts = Post::take(10)
+      ->with('like')
+      ->get();
+
+      $res = [
+          "posts" => $posts->map(function($post) {
+              return [
+                  "id" => $post->id,
+                  "title" => $post->title,
+                  "text" => $post->text,
+                  "userId" => $post->user_id,
+                  "like" => $post->like->map(function($like){
+                      return [
+                          "id" => $like->id
+                      ];
+                  })->count(),
+                  "like_user" => $post->like->map(function($like){
+                    return [
+                        "id" => $like->user_id
+                    ];
+                }),
+                "user_check" => $post->is_liked_by_auth_user(),
+              ];
+          })->all(),
+    ];
+
+      return response()->json(['posts' => $res, 'user' => $user]);
     }
 
     public function store(Request $request)
@@ -21,11 +85,13 @@ class PostController extends Controller
 
       $post->title = $request->title;
       $post->text = $request->text;
-      $post->user_id = 2;
+      $post->user_id = Auth::id();
       // $post->user_id = $request->user()->id;
 
       $post->save();
     }
+
+
 
     public function update(Request $request)
     {
