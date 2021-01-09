@@ -85,8 +85,8 @@ class PostController extends Controller
 
       $post->title = $request->title;
       $post->text = $request->text;
-      $post->user_id = Auth::id();
-      // $post->user_id = $request->user()->id;
+    //   $post->user_id = Auth::id();
+    $post->user_id = 1;
 
       $post->save();
     }
