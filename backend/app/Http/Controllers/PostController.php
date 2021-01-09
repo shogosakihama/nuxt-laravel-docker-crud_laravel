@@ -39,6 +39,7 @@ class PostController extends Controller
                     ];
                 }),
                 "user_check" => $post->is_liked_by_auth_user(),
+                "auther_check" => $post->is_auth_user(),
               ];
           })->all(),
     ];

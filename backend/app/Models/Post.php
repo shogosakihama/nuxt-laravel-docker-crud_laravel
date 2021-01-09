@@ -35,4 +35,20 @@ class Post extends Model
         return false;
       }
     }
+
+    public function is_auth_user()
+    {
+      $id = Auth::id();
+
+      $postUser = array();
+      foreach($this->user->post as $post) {
+        array_push($postUser, $post->user_id);
+      }
+
+      if (in_array($id, $postUser)) {
+        return true;
+      } else {
+        return false;
+      }
+    }
 }
