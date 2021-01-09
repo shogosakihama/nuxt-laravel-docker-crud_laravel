@@ -9,10 +9,10 @@ use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
-    // public function __construct()
-    // {
-    //   $this->middleware('auth:sanctum')->except('indexNoauth');
-    // }
+    public function __construct()
+    {
+      $this->middleware('auth:sanctum')->except('indexNoauth');
+    }
 
     public function index(Request $request)
     {
@@ -85,8 +85,8 @@ class PostController extends Controller
 
       $post->title = $request->title;
       $post->text = $request->text;
-    //   $post->user_id = Auth::id();
-    $post->user_id = 1;
+      $post->user_id = Auth::id();
+      // $post->user_id = $request->user()->id;
 
       $post->save();
     }

@@ -50,11 +50,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('logout', [LoginController::class, 'logout'])->name('api.logout');
     Route::post('like', [LikeController::class, 'like']);
     // Route::get('index', [PostController::class, 'index']);
-    // Route::post('post', [PostController::class, 'store']);
+    Route::post('post', [PostController::class, 'store']);
     Route::post('update', [PostController::class, 'update']);
     Route::post('remove', [PostController::class, 'destroy']);
 });
 Route::get('indexNoauth', [PostController::class, 'indexNoauth']);
 Route::get('index', [PostController::class, 'index']);
-Route::post('post', [PostController::class, 'store']);
-
