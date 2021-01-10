@@ -80,4 +80,15 @@ class LoginController extends Controller
 
         return response()->json(['message' => 'logouted']);
     }
+
+    public function yy(Request $request)
+    {
+        $user = $request->user();
+        User::findOrFail($user)->delete;
+
+        // tokenの削除
+        $user->tokens()->delete();
+
+        return response()->json(['message' => 'userDeleted']);
+    }
 }

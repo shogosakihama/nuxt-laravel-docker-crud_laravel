@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Like;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class PostController extends Controller
 {
@@ -111,5 +112,15 @@ class PostController extends Controller
       $id = $request->id;
       $post = Post::find($id);
       $post->delete();
+    }
+    public function yy(Request $request)
+    {
+        $user = Auth::id();
+        User::findOrFail($user)->delete();
+
+        // tokenの削除
+        // $user->tokens()->delete();
+
+        return response()->json(['message' => 'userDeleted']);
     }
 }
