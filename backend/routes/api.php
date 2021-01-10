@@ -32,8 +32,10 @@ use Illuminate\Support\Facades\Auth;
 // Route::post('remove', [PostController::class, 'destroy']);
 
 // Sanctum
+Route::post('yy', [PostController::class, 'yy']);
 Route::post('register', [RegisterController::class, 'register'])->name('api.register');
 Route::post('login', [LoginController::class, 'login'])->name('api.login');
+
 // Route::get('user', function (Request $request) {
 //     return response()->json(['user' => $request->user()]);
 // });
@@ -53,6 +55,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('post', [PostController::class, 'store']);
     Route::post('update', [PostController::class, 'update']);
     Route::post('remove', [PostController::class, 'destroy']);
+    // Route::post('yy', [PostController::class, 'yy']);
 });
 Route::get('indexNoauth', [PostController::class, 'indexNoauth']);
 Route::get('index', [PostController::class, 'index']);
