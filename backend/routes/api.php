@@ -32,7 +32,7 @@ use Illuminate\Support\Facades\Auth;
 // Route::post('remove', [PostController::class, 'destroy']);
 
 // Sanctum
-Route::post('yy', [PostController::class, 'yy']);
+Route::post('userDelete', [PostController::class, 'userDelete']);
 Route::post('register', [RegisterController::class, 'register'])->name('api.register');
 Route::post('login', [LoginController::class, 'login'])->name('api.login');
 

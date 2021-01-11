@@ -101,7 +101,7 @@ class PostController extends Controller
 
         $post->title = $request->title;
         $post->text = $request->text;
-        $post->user_id = 2;
+        $post->user_id = Auth::id();
         // $post->user_id = $request->user()->id;
 
         $post->save();
@@ -113,7 +113,7 @@ class PostController extends Controller
       $post = Post::find($id);
       $post->delete();
     }
-    public function yy(Request $request)
+    public function userDelete(Request $request)
     {
         $user = Auth::id();
         User::findOrFail($user)->delete();
