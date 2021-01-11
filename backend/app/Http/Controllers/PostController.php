@@ -7,6 +7,7 @@ use App\Models\Post;
 use App\Models\Like;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
@@ -82,22 +83,9 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
-      $post = new Post;
+        $item = DB::transaction(function () use ($request) {
 
-      $post->title = $request->title;
-      $post->text = $request->text;
-      $post->user_id = Auth::id();
-      // $post->user_id = $request->user()->id;
-
-      $post->save();
-    }
-
-
-
-    public function update(Request $request)
-    {
-        $id = $request->id;
-        $post = Post::find($id);
+        $post = new Post;
 
         $post->title = $request->title;
         $post->text = $request->text;
@@ -105,6 +93,26 @@ class PostController extends Controller
         // $post->user_id = $request->user()->id;
 
         $post->save();
+        });
+
+    }
+
+
+
+    public function update(Request $request)
+    {
+        $item = DB::transaction(function () use ($request) {
+
+        $id = $request->id;
+        $post = Post::find($id);
+
+        $post->title = $request->title;
+        $post->text = $request->text;
+        $post->user_id = Auth::id();
+
+        $post->save();
+        });
+
     }
 
     public function destroy(Request $request)
@@ -117,9 +125,6 @@ class PostController extends Controller
     {
         $user = Auth::id();
         User::findOrFail($user)->delete();
-
-        // tokenの削除
-        // $user->tokens()->delete();
 
         return response()->json(['message' => 'userDeleted']);
     }
