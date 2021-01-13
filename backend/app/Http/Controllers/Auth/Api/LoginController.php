@@ -49,16 +49,14 @@ class LoginController extends Controller
                 'email' => [__('failed')],
             ]);
         }
-        $device_name = "test";
         // tokenの作成
-        $token = $user->createToken($device_name)->plainTextToken;
+        $token = $user->createToken($request->password)->plainTextToken;
 
         return response()->json(['token' => $token, 'user' => $user], 200);
     }
 
     protected function validateLogin(Request $request)
     {
-        // オーバーライドして、デバイス名を必須化しています
         $request->validate([
             $this->username() => 'required|string',
             'password' => 'required|string',
