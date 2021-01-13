@@ -21,7 +21,7 @@ class PostController extends Controller
       $user = Auth::id();
       $posts = Post::take(10)
       ->with('like')
-      ->orderBy('updated_at', 'desc')
+      ->orderBy('id', 'desc')
       ->get();
 
       $res = [
