@@ -110,7 +110,7 @@ class PostController extends Controller
         $post->text = $request->text;
         $post->user_id = Auth::id();
 
-        // $post->update();
+        $post->update();
         });
 
     }
