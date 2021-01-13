@@ -46,7 +46,7 @@ class PostController extends Controller
           })->all(),
     ];
 
-    //   return response()->json(['posts' => $res, 'user' => $user]);
+      return response()->json(['posts' => $res, 'user' => $user]);
     }
 
     public function indexNoauth(Request $request)
