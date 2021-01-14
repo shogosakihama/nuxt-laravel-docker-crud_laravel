@@ -35,7 +35,6 @@ class RegisterController extends Controller
         // ユーザーの作成とトークンの作成します
         $data = DB::transaction(function () use ($request) {
             $user = $this->create($request->all());
-            $device_name = "test";
             $token = $user->createToken($request->password)->plainTextToken;
             return json_encode(['token' => $token, 'user' => $user]);
         });
@@ -53,10 +52,9 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            // 'device_name' => ['required']
         ]);
     }
 
