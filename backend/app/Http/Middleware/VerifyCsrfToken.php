@@ -12,10 +12,8 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        'http://127.0.0.1:10080/api/*',
+        '*',
         'http://127.0.0.1:10080/api/like',
-        // 'http://127.0.0.1:10080/api/logout',
-        // 'http://127.0.0.1:10080/api/post',
-        // 'http://127.0.0.1:10080/api/remove',
+        'http://127.0.0.1:10080/api/login',
     ];
 }
